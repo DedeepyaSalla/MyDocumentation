@@ -1,6 +1,5 @@
 # Weather App
-
-# Displays weather information in the screen
+Displays weather information in the screen
 
 # App Contants
 All constants are stored in Constants file and grouped as per category
