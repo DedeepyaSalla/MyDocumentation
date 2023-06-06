@@ -11,7 +11,7 @@ import UIKit
 
 class ImageService {
     
-    var imageRequest: WeatherIconRequest
+    var imageRequest: WeatherIconDataRequest
     var networkService: RestNetworkService
     
     private let lock = NSLock()
@@ -20,7 +20,7 @@ class ImageService {
         return cache
     }()
     
-    init(req: WeatherIconRequest, networkService: RestNetworkService = DefaultRestNetworkService()) {
+    init(req: WeatherIconDataRequest, networkService: RestNetworkService = DefaultRestNetworkService()) {
         imageRequest = req
         self.networkService = networkService
     }

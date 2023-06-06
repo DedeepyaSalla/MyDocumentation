@@ -37,7 +37,7 @@ class WeatherViewModel: ObservableObject {
     }
     
     func fetchWeather(city: String?, coordinates: Coordinates?) {
-        var weatherService = WeatherService(networkService: networkService)
+        var weatherService = WeatherDataRequest(networkService: networkService)
         if let city = city {
             weatherService.addQueryItem(withCityName: "London, UK")
         } else if let coordinates = coordinates {
@@ -61,7 +61,7 @@ class WeatherViewModel: ObservableObject {
     }
     
     func getWeatherIcon(iconName: String) {
-        let imageService = ImageService(req: WeatherIconRequest(imageIcon: iconName))
+        let imageService = ImageService(req: WeatherIconDataRequest(imageIcon: iconName))
         imageService.getWeatherIcon {  image in
             print(image)
         }

@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- Whenever a new URL request is created, create ur own concrete type and confirm to this protocol. So that nothing will be missed and you can take help of default implementations
+ For every new service, create ur own concrete type and confirm to this protocol. So that service object with all necessary info for making a request will be available and you can take help of these default implementations
  */
 
 protocol DataRequest {

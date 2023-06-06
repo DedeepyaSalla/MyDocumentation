@@ -17,7 +17,6 @@ extension StoryboardLoadable where Self: UIViewController {
         - if you want to add function with default param values, because default param values are not accepted in protocol
      */
     func getVC(from storyboardName: String = DataStorageConstants.FileName.main, storyboardId: String, bundle: Bundle? = nil) -> UIViewController {
-        print("getVC -- StoryboardLoadable")
         let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
         return storyboard.instantiateViewController(withIdentifier: storyboardId)
     }
