@@ -9,16 +9,20 @@ import UIKit
 import Combine
 
 /**
-    Converts current Kelvin value to Farenheit value. Uses below formula. Assuming  value is in Kelvin units.
-    formula: Fahrenheit = (temperature in Kelvin - 273.15) * 9/5 + 32
+    Displays weather information.
+        - Intially checks if weather information from previous session exists and if exists then displays weather information from that session
+        - Then tries to replace that previous session weather info with latest weather info by using user's current location
+        - If user searches for any specific location, then fetches weather info for that location
  */
 
 class WeatherViewController: UIViewController, StoryboardLoadable {
     
     private var weatherViewModel: WeatherViewModel?
-    private var cancellable: AnyCancellable?
+    private var weatherLoadCancellable: AnyCancellable?
+    private var imageLoadCancellable: AnyCancellable?
     
     // MARK: - IBOutlets
+    @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var currentTemperature: UILabel!
     @IBOutlet weak var skyImageView: UIImageView!
     @IBOutlet weak var skyInfoLabel: UILabel!
@@ -37,29 +41,32 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
         setUpUI()
     }
     
-    /*
-     conditions:
-     1.If your previous data exists, then reload view with that data
-     2.If you have access to current location, use that location coordinates to get weather updates for that location. Map request and api request with that coordinates
-     3.If you don't have access to current location, then request user to give access?? later
-     4.make api call for cities or zipcodes only when user wants to search
-     5.By dfault, when there is no location access and no search is performed -- display -- for all of them and default placeholder for image
-     */
     func setUpInitialData() {
         // initialize viewModel
-        let service = DefaultRestNetworkService()
-        weatherViewModel = WeatherViewModel(networkService: service)
+        setUpViewModel()
         
-        cancellable = weatherViewModel?.$weather.sink {[weak self] weatherData in
-            if let val = weatherData {
-               // self?.reloadViewData(weather: val)
-            }
-        }
         // reload previous weather data if exists
         reloadPreviousData()
         
         // replace the previous data with curren location weather
         getWeatherOfUserLocation()
+    }
+    
+    func setUpViewModel() {
+        let service = DefaultRestNetworkService()
+        weatherViewModel = WeatherViewModel(networkService: service)
+        
+        weatherLoadCancellable = weatherViewModel?.$weather.sink {[weak self] weatherData in
+            if let val = weatherData {
+                self?.reloadViewData(weather: val)
+            }
+        }
+        
+        imageLoadCancellable = weatherViewModel?.$cloudImage.sink {[weak self] image in
+            if let image = image {
+                self?.skyImageView.image = image
+            }
+        }
     }
     
     func reloadPreviousData() {
@@ -87,16 +94,19 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
         navigationItem.searchController = searchController
     }
 
-    func reloadViewData(weather: WeatherModel) {
-        currentTemperature.text = "\(weather.main.temp.farenheit)"
-        feelsLikeLabel.text = getStrFormat(val: weather.main.feels_like)
-        skyInfoLabel.text = getStrFormat(val: weather.weather.description)
+    func reloadViewData(weather: CurrentWeatherInfo) {
+        print("came to reload view")
+        print(weather)
+        currentTemperature.text = getStrFormat(val: weather.temperature.farenheit)
+        feelsLikeLabel.text = "Feels like " + getStrFormat(val: weather.feelsLike.farenheit)
         visibilityLabel.text = getStrFormat(val: weather.visibility)
-        pressureLabel.text = getStrFormat(val: weather.main.pressure)
-        humidityLabel.text = getStrFormat(val: weather.main.humidity)
-        minTemperatureLabel.text = getStrFormat(val: weather.main.temp_min)
-        maxTemperatureLabel.text = getStrFormat(val: weather.main.temp_max)
-        skyImageView.image = UIImage()
+        pressureLabel.text = getStrFormat(val: weather.pressure)
+        humidityLabel.text = getStrFormat(val: weather.humidity)
+        minTemperatureLabel.text = getStrFormat(val: weather.minTemp)
+        maxTemperatureLabel.text = getStrFormat(val: weather.maxTemp)
+        skyInfoLabel.text = weather.description
+        cityNameLabel.text = weather.cityName
+        //skyImageView.image = UIImage()
     }
     
     func getStrFormat<T>(val: T) -> String {

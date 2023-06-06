@@ -17,7 +17,7 @@ struct GetCitiesService: DataRequest {
     }
 
     var queryItems: [String : String] {
-        ["country": "United States"]
+        [APIConstants.QueryConstants.country.rawValue: APIConstants.QueryConstants.unitedStates.rawValue]
     }
     
     var url: String {
@@ -25,21 +25,5 @@ struct GetCitiesService: DataRequest {
         return baseURL
     }
     
-//    func getCitiesList(networkService: RestNetworkService, completion: @escaping (Result<CitiesModel, ServiceError<String>>) -> Void) {
-//
-//        networkService.request(self) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let citiesInfo):
-//                    let cities = citiesInfo.data
-//                    print(cities.count)
-//                    //completion(.success(cities))
-//                case .failure(_):
-//                    print("failed, so inform to user")
-//                    completion(.failure(.badURL))
-//                }
-//            }
-//        }
-//    }
 }
 

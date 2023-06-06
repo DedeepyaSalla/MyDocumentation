@@ -19,7 +19,6 @@
 		3F12BEAA2A2BF4E2001F372E /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12BEA92A2BF4E2001F372E /* WeatherModel.swift */; };
 		3F12BEAC2A2BF501001F372E /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12BEAB2A2BF501001F372E /* WeatherViewController.swift */; };
 		3F12BEAE2A2BF53B001F372E /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F12BEAD2A2BF53B001F372E /* AppUtility.swift */; };
-		3F1657002A2D20930019CB2C /* cloudySample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F1656FF2A2D20930019CB2C /* cloudySample.png */; };
 		3F1657032A2D271E0019CB2C /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1657022A2D271E0019CB2C /* WeatherService.swift */; };
 		3F1657052A2D2A7A0019CB2C /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1657042A2D2A7A0019CB2C /* LocationSearchViewController.swift */; };
 		3F1657082A2D49DA0019CB2C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1657072A2D49DA0019CB2C /* Constants.swift */; };
@@ -75,7 +74,6 @@
 		3F12BEAB2A2BF501001F372E /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		3F12BEAD2A2BF53B001F372E /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		3F12BEAF2A2C1008001F372E /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
-		3F1656FF2A2D20930019CB2C /* cloudySample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloudySample.png; sourceTree = "<group>"; };
 		3F1657022A2D271E0019CB2C /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		3F1657042A2D2A7A0019CB2C /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		3F1657072A2D49DA0019CB2C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				3F1657192A2DDE650019CB2C /* Configurations */,
 				3F1657092A2D4A1D0019CB2C /* Utilities */,
 				3F1657012A2D270D0019CB2C /* NetworkLayer */,
-				3F1656FE2A2D207C0019CB2C /* Images */,
 				3F12BEA62A2BF4B7001F372E /* Weather */,
 				3F12BE762A2BF4A9001F372E /* AppDelegate.swift */,
 				3F12BE782A2BF4A9001F372E /* SceneDelegate.swift */,
@@ -185,14 +182,6 @@
 				3F1657152A2D709C0019CB2C /* Views */,
 			);
 			path = Weather;
-			sourceTree = "<group>";
-		};
-		3F1656FE2A2D207C0019CB2C /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				3F1656FF2A2D20930019CB2C /* cloudySample.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		3F1657012A2D270D0019CB2C /* NetworkLayer */ = {
@@ -446,7 +435,6 @@
 				3F12BE832A2BF4AA001F372E /* LaunchScreen.storyboard in Resources */,
 				3F12BE802A2BF4AA001F372E /* Assets.xcassets in Resources */,
 				3F12BE7E2A2BF4A9001F372E /* Main.storyboard in Resources */,
-				3F1657002A2D20930019CB2C /* cloudySample.png in Resources */,
 				3F1657132A2D70910019CB2C /* CurrentLocationCellTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

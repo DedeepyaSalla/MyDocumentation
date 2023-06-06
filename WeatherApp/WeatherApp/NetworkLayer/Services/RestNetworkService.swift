@@ -33,6 +33,8 @@ final class DefaultRestNetworkService: RestNetworkService {
     
     func request<Request: DataRequest> (_ serviceInfo: Request, completion: @escaping ( Result<Request.DataModel, ServiceError<String>> ) -> Void) {
         
+        print("started - NetworkService - api --", Thread.current)
+
         var postData:Data?
         
         guard var urlComponent = URLComponents(string: serviceInfo.url) else {
@@ -66,7 +68,7 @@ final class DefaultRestNetworkService: RestNetworkService {
     private func makeApiCall<Request: DataRequest>(dataRequest: Request, urlRequest: URLRequest, completion: @escaping (Result<Request.DataModel, ServiceError<String>>) -> Void) {
         
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            
+            print("started - NetworkService - url session request", Thread.current)
             if let error = error {
                 return completion(.failure(.apiFailure(error.localizedDescription)))
             }
@@ -80,6 +82,7 @@ final class DefaultRestNetworkService: RestNetworkService {
             }
             
             do {
+                print("sending completion from network service", Thread.current)
                 try completion(.success(dataRequest.decode(data)))
             } catch let parseError {
                 completion(.failure(.parseError(parseError.localizedDescription)))

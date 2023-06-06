@@ -40,6 +40,16 @@ enum APIConstants {
     enum APIKeys {
         static let weatherApiKey: String = "fa5cb89e48e32f17f631ae8c5b5469f6"
     }
+    
+    enum QueryConstants: String {
+        case country = "country"
+        case unitedStates = "United States"
+        case appId = "appid"
+        case query = "q"
+        case latitude = "lat"
+        case longtitude = "lon"
+    }
 }
+
 
 

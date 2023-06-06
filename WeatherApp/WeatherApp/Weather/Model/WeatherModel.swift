@@ -63,6 +63,7 @@ struct CurrentWeatherInfo: Codable {
     var maxTemp: Double = 0.0
     var skyImageUrl: String = ""
     var description: String = ""
+    var cityName: String = ""
 }
 
 protocol encodeConvertable {
