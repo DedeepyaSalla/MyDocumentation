@@ -16,11 +16,14 @@ protocol WeatherViewModelProtocol {
 }
 
 class WeatherViewModel: ObservableObject {
+    
+    // MARK: - Published Properties
     @Published var weather: CurrentWeatherInfo?
     @Published var cloudImage: UIImage?
-    private let networkService: RestNetworkService
-    var citiesList: [String] = []
+    @Published var citiesList: [String]?
     
+    // MARK: - Private Properties
+    private let networkService: RestNetworkService
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         let cache = NSCache<AnyObject, AnyObject>()
         return cache
@@ -31,6 +34,10 @@ class WeatherViewModel: ObservableObject {
         featchAllCities()
     }
     
+    // MARK: - API calls
+    /**
+     Get list of all cities from Cities API and after response is received, update citiesList
+     */
     private func featchAllCities() {
         let citiesService = GetCitiesService()
         networkService.request(citiesService) { [weak self] result in
@@ -46,10 +53,13 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
+    /**
+     Get weather info from api. Here api request is perfomed either with city name or with coordinates. Coordinates are passed when weather info is required for current user location. After response is received, udpate UI with those details and use the weather icon obtained from this api to make next api call inorder to featch weather icon image.
+     */
     func fetchWeather(city: String?, coordinates: Coordinates?) {
         var weatherService = WeatherDataRequest(networkService: networkService)
         if let city = city {
-            weatherService.addQueryItem(withCityName: "Oreland")
+            weatherService.addQueryItem(withCityName: city)
         } else if let coordinates = coordinates {
             weatherService.addQueryItem(withCoordinates: coordinates)
         }
@@ -72,6 +82,9 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
+    /**
+     Fetch weather icon image for that particular weather from api adn update cloudImage based after receiving response
+     */
     func getWeatherIcon(iconName: String) {
         let imageRequest = WeatherIconDataRequest(imageIcon: iconName)
         let imageService = ImageService(req: imageRequest, imageCach: imageCache)
@@ -84,6 +97,7 @@ class WeatherViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Saving weather data
     func saveWeatherInfo(weatherInfo: WeatherModel?) {
         var model = CurrentWeatherInfo()
         model.temperature = weatherInfo?.main.temp ?? 0.0

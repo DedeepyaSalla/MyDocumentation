@@ -15,9 +15,7 @@ struct WeatherModel: Codable {
     let base: String
     let main: Main
     let visibility: Int
-    let wind: Wind?
     let dt: Int?
-    let sys: Sys?
     let timezone: Int?
     let name: String?
 }
@@ -41,16 +39,6 @@ struct Main: Codable {
     let temp_max: Double
     let pressure: Double
     let humidity: Double
-}
-
-struct Wind: Codable {
-    let speed: Double
-    let deg: Int
-}
-
-struct Sys: Codable {
-    let sunrise: Int
-    let sunset: Int
 }
 
 struct CurrentWeatherInfo: Codable {

@@ -7,48 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C7573DC6-F4DB-4A7E-B945-89F0475F8892"
+            uuid = "34C53892-173B-4940-A8E5-197D06BB9437"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherApp/NetworkLayer/ImageService.swift"
+            filePath = "WeatherApp/Weather/ViewController/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "getWeatherIcon(completion:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "selectedItem(item:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B358711C-29B5-439E-8E9B-D332A5DD20A2"
+            uuid = "A46994ED-C86D-4C04-A510-AAA86051D5AC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherApp/NetworkLayer/ImageService.swift"
+            filePath = "WeatherApp/Weather/ViewModel/WeatherViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "downloadImage(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9202E557-D535-45E5-8711-718B8F3CD3A0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WeatherApp/NetworkLayer/ImageService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "getWeatherIcon(completion:)"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "fetchWeather(city:coordinates:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

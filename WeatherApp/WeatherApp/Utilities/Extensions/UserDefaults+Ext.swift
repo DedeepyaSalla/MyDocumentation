@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /**
     Holds all properties which are stored in UserDefaults
  */

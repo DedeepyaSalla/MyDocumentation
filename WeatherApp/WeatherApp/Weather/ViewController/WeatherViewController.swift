@@ -17,10 +17,11 @@ import Combine
 
 class WeatherViewController: UIViewController, StoryboardLoadable {
     
+    // MARK: - Private Properties
+    private var searchResultsVC: SearchViewController?
     private var weatherViewModel: WeatherViewModel?
-    private var weatherLoadCancellable: AnyCancellable?
-    private var imageLoadCancellable: AnyCancellable?
-    
+    private var allCancellables = Set<AnyCancellable>()
+  
     // MARK: - IBOutlets
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var currentTemperature: UILabel!
@@ -33,12 +34,15 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
     @IBOutlet weak var minTemperatureLabel: UILabel!
     @IBOutlet weak var maxTemperatureLabel: UILabel!
     
-    let appUtil = AppUtility()
+    // MARK: - Others
+    let appUtility = AppUtility()
+    
+    // MARK: - Initial Set up
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpInitialData()
         setUpUI()
+        setUpInitialData()
     }
     
     func setUpInitialData() {
@@ -56,17 +60,23 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
         let service = DefaultRestNetworkService()
         weatherViewModel = WeatherViewModel(networkService: service)
         
-        weatherLoadCancellable = weatherViewModel?.$weather.sink {[weak self] weatherData in
+        weatherViewModel?.$citiesList.sink {[weak self] cities in
+            if let cities = cities {
+                self?.searchResultsVC?.originalList = cities
+            }
+        }.store(in: &allCancellables)
+        
+      weatherViewModel?.$weather.sink {[weak self] weatherData in
             if let val = weatherData {
                 self?.reloadViewData(weather: val)
             }
-        }
+        }.store(in: &allCancellables)
         
-        imageLoadCancellable = weatherViewModel?.$cloudImage.sink {[weak self] image in
+        weatherViewModel?.$cloudImage.sink {[weak self] image in
             if let image = image {
                 self?.skyImageView.image = image
             }
-        }
+        }.store(in: &allCancellables)
     }
     
     func reloadPreviousData() {
@@ -77,21 +87,24 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
     }
     
     func requestUserLocation() {
-        appUtil.delegate = self
-        appUtil.requestUserLocation()
+        appUtility.delegate = self
+        appUtility.requestUserLocation()
     }
-    
+
     func setUpUI() {
 //        if let img = UIImage(named: DataStorageConstants.ImageNames.weatherBackground) {
 //            self.view.backgroundColor = UIColor(patternImage: img)
 //        }
        
-        guard let locationsVC = getVC(storyboardId: DataStorageConstants.FileName.searchViewController) as? SearchViewController else {
+        guard let searchVC = getVC(storyboardId: DataStorageConstants.FileName.searchViewController) as? SearchViewController else {
             return
         }
-        let searchController = UISearchController(searchResultsController: locationsVC)
+        let searchController = UISearchController(searchResultsController: searchVC)
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
+        
+        searchResultsVC = searchController.searchResultsController as? SearchViewController
+        searchResultsVC?.delegate = self
     }
 
     func reloadViewData(weather: CurrentWeatherInfo) {
@@ -106,7 +119,6 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
         maxTemperatureLabel.text = getStrFormat(val: weather.maxTemp)
         skyInfoLabel.text = weather.description
         cityNameLabel.text = weather.cityName
-        //skyImageView.image = UIImage()
     }
     
     func getStrFormat<T>(val: T) -> String {
@@ -114,6 +126,7 @@ class WeatherViewController: UIViewController, StoryboardLoadable {
     }
 }
 
+// MARK: - AppUtilityProtocol 
 extension WeatherViewController: AppUtilityProtocol {
     func locationUpdated() {
         getWeatherOfUserLocation()
@@ -129,14 +142,22 @@ extension WeatherViewController: AppUtilityProtocol {
     }
 }
 
+// MARK: - UISearchResultsUpdating Delegate
 extension WeatherViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {
             return
         }
-        let vc = searchController.searchResultsController as? SearchViewController
-        vc?.searchText = searchText
-        weatherViewModel?.fetchWeather(city: searchText, coordinates: nil)
+        searchResultsVC?.searchText = searchText
+    }
+}
+
+// MARK: - UISearchResultsUpdating Delegate
+extension WeatherViewController: SearchVCProtocol {
+    
+    func selectedItem(item: String) {
+        searchResultsVC?.dismiss(animated: true)
+        weatherViewModel?.fetchWeather(city: item, coordinates: nil)
     }
 }

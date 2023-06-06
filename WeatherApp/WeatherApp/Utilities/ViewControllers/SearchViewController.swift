@@ -7,61 +7,72 @@
 
 import UIKit
 
-let reuseIdentifier = "testCell"
+let reuseIdentifier = "CityTableViewCellReuse"
+
+protocol SearchVCProtocol: AnyObject {
+    func selectedItem(item: String)
+}
 
 class SearchViewController: UIViewController {
 
+    // MARK: - IBOutlets
     @IBOutlet weak var tableview: UITableView!
     
+    // MARK: - properties
+    private var searchList: [String] = []
+    var originalList: [String] = []
     var searchText: String = "" {
       didSet {
           updateSearchResults()
       }
     }
-    
-    var originalList: [String] = ["Monday", "Tuesday", "Wednesday", "Thursday"]
-    var cell: UITableViewCell = UITableViewCell()
-    private var searchList: [String] = []
-   
+    weak var delegate: SearchVCProtocol?
+
+    // MARK: - UI setup
     override func viewDidLoad() {
         super.viewDidLoad()
         searchList = originalList
         setUpUI()
+        
+        print("initialized search vc")
+        print(originalList.count)
+        print(searchList.count)
     }
     
     func setUpUI() {
-       
-        let imageCell = "CurrentLocationCellTableViewCell"
-        
+        let imageCell = "CityTableViewCell"
         tableview.dataSource = self
+        tableview.delegate = self
         tableview.register(UINib(nibName: imageCell, bundle: nil), forCellReuseIdentifier: reuseIdentifier)
-       // tableview.register(CurrentLocationCellTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
-    
-    
+
     func updateSearchResults() {
         searchList = originalList.filter {$0.contains(searchText)}
         tableview.reloadData()
+        
+        print("searching udpate", searchText)
+        print(originalList.count)
+        print(searchList.count)
     }
 }
 
-extension SearchViewController: UITableViewDataSource {
+// MARK: - UITableViewDataSource, UITableViewDelegate
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(forIndexPath: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CurrentLocationCellTableViewCell
-        return cell//configureCell(cell, searchList[indexPath.row])
-    }
-    
-    func configureCell(_ cell: UITableViewCell, _ item: String) -> UITableViewCell {
-        
+        print("came to cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CityTableViewCell
+        cell.cityLabel.text = searchList[indexPath.row]
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.selectedItem(item: searchList[indexPath.row])
+    }
 }
 
 class SearchTableViewDataSource<T: Any>: NSObject, UITableViewDataSource {
