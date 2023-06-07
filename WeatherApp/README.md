@@ -1,13 +1,11 @@
 # Weather App
-Displays weather information in the screen
+This app displays the weather information. By default, weather of user's current location is displayed. But user can get the weather of the city they wanted by searching for cities in search field.
 
-# App Contants
-All constants are stored in Constants file and grouped as per category
+# Code Details
+  ## App Contants
+  All constants are stored in Constants file and grouped as per category
 
-# Reusable code
-All reusable code is declared in utilties. 
-
-# Network Layer
-All Rest Api requests are performed using 'RestNetworkService'. Data Requests for individual services are created and passed as parameter to this service. Each service confirms to DataRequests protocol, so that default functionalities and duplication can be avoided.
+  ## Reusable code
+  All reusable code is declared in utilties.
 
 
